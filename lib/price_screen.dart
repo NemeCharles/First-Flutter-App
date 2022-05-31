@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'coin_data.dart';
-import 'package:flutter/cupertino.dart';
-import 'dart:io' show Platform;
 
 
-const apiKey = 'B6383058-A208-4C38-8550-4E103F912B40';
 const kFontStyle = TextStyle(
   fontSize: 20.0,
   color: Colors.white,
@@ -62,7 +59,7 @@ class _PriceScreenState extends State<PriceScreen> {
         });
   }
 
-  DropdownButton<String> dropdownMenuOne() {
+  DropdownButton<String> coinDropdownMenu() {
     return DropdownButton<String>(
         value: cryptoValue,
         items: cryptoList.map<DropdownMenuItem<String>>((String value) {
@@ -81,29 +78,8 @@ class _PriceScreenState extends State<PriceScreen> {
         });
   }
 
-  CupertinoPicker iosPicker () {
-    List<Text> listItem = [];
-    for (String currency in currenciesList) {
-      var currencyMenu = Text(currency,
-        style: const TextStyle(
-          color: Colors.white
-        ),
-      );
-      listItem.add(currencyMenu);
-    }
-    return CupertinoPicker(
-        backgroundColor: Colors.tealAccent[700],
-        itemExtent: 36.0,
-        onSelectedItemChanged: (index) {
-          dropdownValue = currenciesList[index];
-          updateScreen();
-        },
-        children: listItem
-    );
-  }
-
   void updateScreen() async {
-    var data = await CoinData().getData('https://rest.coinapi.io/v1/exchangerate/$cryptoValue/$dropdownValue?apikey=$apiKey');
+    var data = await CoinData().getData(cryptoValue, dropdownValue);
     setState(() {
       if(data != null) {
         var price = data;
@@ -145,7 +121,7 @@ class _PriceScreenState extends State<PriceScreen> {
                       const Text('1',
                         style: kFontStyle,
                       ),
-                      dropdownMenuOne()
+                      coinDropdownMenu()
                     ],
                   )
                 ),
@@ -177,8 +153,9 @@ class _PriceScreenState extends State<PriceScreen> {
             padding: const EdgeInsets.only(bottom: 30.0),
             color: Colors.tealAccent[700],
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Platform.isIOS ? iosPicker(): dropdownMenu()
+                dropdownMenu()
               ],
             )
           ),
