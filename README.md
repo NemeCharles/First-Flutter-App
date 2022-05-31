@@ -2,8 +2,12 @@
 
 A new Flutter project.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is a beginner is a beginners flutter app.
 
-This is a beginners flutter app
+It is a crypto prices app created Flutter.Current Prices are pulled from Coinapi.io.
+New and advanced features will bbe added into the app as I get better at Flutter programming.
+
+
+
+
